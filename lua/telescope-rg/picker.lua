@@ -6,11 +6,37 @@ local state = require('telescope.actions.state')
 local conf = require("telescope.config").values
 local utils = require('telescope.utils')
 
+local entry_display = require('telescope.pickers.entry_display')
+
+
+local displayer = entry_display.create {
+  separator = ' ▏ ',
+  items = {
+    { width = 3 },
+    { width = 3 },
+    { remaining = true },
+  },
+}
+
+
+local pad = function (n)
+  return vim.fn.printf('%3d', n)
+end
+
+
+local make_display = function (entry)
+  return displayer {
+    { pad(entry.lnum), 'TelescopeResultsLineNr' },
+    { pad(entry.value.col), 'TelescopeResultsLineNr' },
+    { entry.value.filename, 'TelescopeResultsIdentifier' },
+  }
+end
+
 
 local entry_maker = function (data)
   return {
     value = data,
-    display = data.filename .. ' L' .. data.lnum,
+    display = make_display,
     ordinal = data.filename,
     path = data.filename,
     lnum = data.lnum,
