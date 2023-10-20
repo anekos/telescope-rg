@@ -1,7 +1,7 @@
 local picker = require('telescope-rg.picker')
 
 function search_command(args)
-  picker(args.args, {})
+  picker({ query = args.args })
 end
 
 

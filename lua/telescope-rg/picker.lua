@@ -65,14 +65,25 @@ local qf_entry = function (data)
 end
 
 
-return function (query, opts)
+local command = function (opts)
+  local query = opts.query or vim.fn.input('Query: ')
+
+  local result = 'rg --json --regexp ' .. vim.fn.shellescape(query)
+  if opts.type then
+    result = result .. ' --type ' .. vim.fn.shellescape(opts.type)
+  end
+  return result
+end
+
+
+return function (opts)
   opts = opts or {}
 
   local qf_entries = {}
   local max_lnum = 0
   local max_col = 0
 
-  for _, line in pairs(vim.fn.systemlist('rg --json ' .. vim.fn.shellescape(query))) do
+  for _, line in pairs(vim.fn.systemlist(command(opts))) do
     local entry = vim.fn.json_decode(line)
     if entry['type'] == 'match' then
       table.insert(qf_entries, qf_entry(entry.data))
