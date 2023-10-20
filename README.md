@@ -31,6 +31,7 @@ or
 
 ```vim
 :Telescope rg query=your-search-query type=py
+:Rg! --type=py your-search-query
 ```
 
 means

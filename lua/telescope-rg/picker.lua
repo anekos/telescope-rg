@@ -75,6 +75,10 @@ end
 
 
 local command = function (opts)
+  if opts.args then
+    return 'rg --json ' .. opts.args
+  end
+
   local query = opts.query or vim.fn.input('Query: ')
 
   local result = 'rg --json --regexp ' .. vim.fn.shellescape(query)
