@@ -65,13 +65,30 @@ local qf_entry = function (data)
 end
 
 
+local arg_key = function (key)
+  if #key == 1 then
+    return ' -' .. key
+  else
+    return ' --' .. key
+  end
+end
+
+
 local command = function (opts)
   local query = opts.query or vim.fn.input('Query: ')
 
   local result = 'rg --json --regexp ' .. vim.fn.shellescape(query)
-  if opts.type then
-    result = result .. ' --type ' .. vim.fn.shellescape(opts.type)
+
+  for key, value in pairs(opts) do
+    if key ~= 'query' then
+      if type(value) == 'boolean' then
+        result = result .. arg_key(key)
+      else
+        result = result .. arg_key(key) .. '=' .. vim.fn.shellescape(tostring(value))
+      end
+    end
   end
+
   return result
 end
 
