@@ -4,12 +4,11 @@ local pickers = require('telescope.pickers')
 local state = require('telescope.actions.state')
 
 local conf = require("telescope.config").values
-local utils = require('telescope.utils')
 
 local entry_display = require('telescope.pickers.entry_display')
 
 
-local digits = function (x)
+local n_of_digits = function (x)
   return math.floor(math.log10(x)) + 1
 end
 
@@ -119,11 +118,11 @@ return function (opts)
     prompt_title = 'rg',
     finder = finders.new_table {
       results = qf_entries,
-      entry_maker = entry_maker(digits(max_lnum), digits(max_col)),
+      entry_maker = entry_maker(n_of_digits(max_lnum), n_of_digits(max_col)),
     },
     sorter = conf.file_sorter(opts),
     previewer = conf.grep_previewer(opts),
-    attach_mappings = function(prompt_bufnr, map)
+    attach_mappings = function(prompt_bufnr, _)
       actions.select_default:replace(function()
         actions.close(prompt_bufnr)
         local data = state.get_selected_entry().value

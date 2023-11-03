@@ -1,6 +1,6 @@
 local picker = require('telescope-rg.picker')
 
-function search_command(args)
+local search_command = function (args)
   if args.bang then
     return picker({ args = args.args })
   else
