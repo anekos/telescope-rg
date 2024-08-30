@@ -9,3 +9,12 @@ repos:
     rev: v0.20.0
     hooks:
       - id: stylua
+        args:
+          - '--quote-style'
+          - 'AutoPreferSingle'
+          - '--indent-type'
+          - 'Spaces'
+          - '--indent-width'
+          - '2'
+          - '--call-parentheses'
+          - 'NoSingleTable'
